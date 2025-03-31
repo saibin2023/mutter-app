@@ -1,6 +1,7 @@
 package com.mutter.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Post {
     private int id;
@@ -8,6 +9,7 @@ public class Post {
     private String content;
     private String author;
     private LocalDateTime createTime;
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
 
     public Post(int id, String title, String content, String author) {
         this.id = id;
@@ -49,8 +51,8 @@ public class Post {
         this.author = author;
     }
 
-    public LocalDateTime getCreateTime() {
-        return createTime;
+    public String getCreateTime() {
+        return createTime.format(formatter);
     }
 
     public void setCreateTime(LocalDateTime createTime) {

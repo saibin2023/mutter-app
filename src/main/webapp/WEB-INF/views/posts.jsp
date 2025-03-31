@@ -120,7 +120,7 @@
                     <div class="post-title">${post.title}</div>
                     <div class="post-meta">
                         投稿者：${post.author} | 
-                        投稿日時：<fmt:formatDate value="${post.createTime}" pattern="yyyy/MM/dd HH:mm"/>
+                        投稿日時：${post.createTime}
                     </div>
                     <div class="post-content">${post.content}</div>
                 </div>
