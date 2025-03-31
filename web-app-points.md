@@ -16,9 +16,9 @@ WAR 文件：Web 应用的打包格式（类似于 ZIP），可以直接部署�
 
 这样，Maven 负责管理代码和依赖，Tomcat 负责运行 WAR 文件，整个过程自动化且高效。
 
-运行一个基于 Java Servlet 和 JSP 的 Web 应用项目，并使用 ServletContext 存储数据，主要涉及以下几个方面的工作：
 
 # 具体
+运行一个基于 Java Servlet 和 JSP 的 Web 应用项目，并使用 ServletContext 存储数据，主要涉及以下几个方面的工作：
 
 1. 项目环境搭建
 (1) 安装必需的工具
