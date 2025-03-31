@@ -1,67 +1,84 @@
 package com.mutter.servlet;
 
+import com.mutter.dao.PostDAO;
 import com.mutter.model.Post;
-import com.mutter.model.User;
-
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet("/posts")
+@WebServlet("/post/*")
 public class PostServlet extends HttpServlet {
+    private PostDAO postDAO;
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
-            throws ServletException, IOException {
-        ServletContext context = getServletContext();
-        List<Post> posts = (List<Post>) context.getAttribute("posts");
-        
-        if (posts == null) {
-            posts = new ArrayList<>();
-            context.setAttribute("posts", posts);
-        }
-        
-        req.setAttribute("posts", posts);
-        req.getRequestDispatcher("/WEB-INF/views/posts.jsp").forward(req, resp);
+    public void init() throws ServletException {
+        postDAO = new PostDAO();
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        User user = (User) session.getAttribute("user");
+        String pathInfo = request.getPathInfo();
         
-        if (user == null) {
-            resp.sendRedirect(req.getContextPath() + "/login");
+        try {
+            if (pathInfo == null || pathInfo.equals("/")) {
+                // 显示所有帖子
+                List<Post> posts = postDAO.getAllPosts();
+                request.setAttribute("posts", posts);
+                request.getRequestDispatcher("/WEB-INF/views/posts.jsp").forward(request, response);
+            } else if (pathInfo.equals("/new")) {
+                // 显示发帖表单
+                request.getRequestDispatcher("/WEB-INF/views/new_post.jsp").forward(request, response);
+            } else if (pathInfo.startsWith("/view/")) {
+                // 查看单个帖子
+                int id = Integer.parseInt(pathInfo.substring(6));
+                Post post = postDAO.getPost(id);
+                if (post != null) {
+                    request.setAttribute("post", post);
+                    request.getRequestDispatcher("/WEB-INF/views/view_post.jsp").forward(request, response);
+                } else {
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Post not found");
+                }
+            } else {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid path");
+            }
+        } catch (SQLException e) {
+            throw new ServletException("Database error", e);
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("username") == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
 
-        String title = req.getParameter("title");
-        String content = req.getParameter("content");
+        String title = request.getParameter("title");
+        String content = request.getParameter("content");
+        String author = (String) session.getAttribute("username");
 
         if (title == null || title.trim().isEmpty() || content == null || content.trim().isEmpty()) {
-            req.setAttribute("error", "タイトルと内容を入力してください。");
-            doGet(req, resp);
+            request.setAttribute("error", "标题和内容不能为空");
+            request.getRequestDispatcher("/WEB-INF/views/new_post.jsp").forward(request, response);
             return;
         }
 
-        ServletContext context = getServletContext();
-        List<Post> posts = (List<Post>) context.getAttribute("posts");
-        if (posts == null) {
-            posts = new ArrayList<>();
-            context.setAttribute("posts", posts);
+        try {
+            Post post = new Post(title, content, author);
+            postDAO.createPost(post);
+            response.sendRedirect(request.getContextPath() + "/post");
+        } catch (SQLException e) {
+            throw new ServletException("Database error", e);
         }
-
-        int newId = posts.size() + 1;
-        Post post = new Post(newId, title, content, user.getUsername());
-        posts.add(post);
-
-        resp.sendRedirect(req.getContextPath() + "/posts");
     }
 } 

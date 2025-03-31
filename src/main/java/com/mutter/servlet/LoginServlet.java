@@ -1,5 +1,9 @@
 package com.mutter.servlet;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.mutter.model.User;
 
 import jakarta.servlet.ServletContext;
@@ -9,9 +13,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -41,7 +42,7 @@ public class LoginServlet extends HttpServlet {
         if (user != null && user.getPassword().equals(password)) {
             HttpSession session = req.getSession();
             session.setAttribute("user", user);
-            resp.sendRedirect(req.getContextPath() + "/posts");
+            resp.sendRedirect(req.getContextPath() + "/post");
         } else {
             req.setAttribute("error", "ユーザー名またはパスワードが間違っています。");
             req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);

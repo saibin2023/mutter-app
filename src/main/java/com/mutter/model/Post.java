@@ -11,12 +11,21 @@ public class Post {
     private LocalDateTime createTime;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
 
-    public Post(int id, String title, String content, String author) {
-        this.id = id;
+    public Post() {}
+
+    public Post(String title, String content, String author) {
         this.title = title;
         this.content = content;
         this.author = author;
         this.createTime = LocalDateTime.now();
+    }
+
+    public Post(int id, String title, String content, String author, LocalDateTime createTime) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.author = author;
+        this.createTime = createTime;
     }
 
     public int getId() {
@@ -53,6 +62,10 @@ public class Post {
 
     public String getCreateTime() {
         return createTime.format(formatter);
+    }
+
+    public LocalDateTime getCreateTimeRaw() {
+        return createTime;
     }
 
     public void setCreateTime(LocalDateTime createTime) {
