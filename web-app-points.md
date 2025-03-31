@@ -1,4 +1,24 @@
+Tomcat + Maven + WAR 文件的关系可以简单理解为：
+
+Tomcat：一个运行 Java Web 应用的服务器。
+
+Maven：一个管理 Java 项目的构建工具，可以自动下载依赖、打包项目等。
+
+WAR 文件：Web 应用的打包格式（类似于 ZIP），可以直接部署到 Tomcat 运行。
+
+# 流程
+
+用 Maven 编写 Java Web 项目。
+
+使用 mvn package 命令，Maven 会把项目打包成 WAR 文件。
+
+把 WAR 文件 放到 Tomcat 的 webapps/ 目录，Tomcat 就能运行这个 Web 应用了。
+
+这样，Maven 负责管理代码和依赖，Tomcat 负责运行 WAR 文件，整个过程自动化且高效。
+
 运行一个基于 Java Servlet 和 JSP 的 Web 应用项目，并使用 ServletContext 存储数据，主要涉及以下几个方面的工作：
+
+# 具体
 
 1. 项目环境搭建
 (1) 安装必需的工具
@@ -155,4 +175,6 @@ mvn clean package
 使用 ServletContext 共享数据
 
 这种方式适用于小型项目，但 ServletContext 适用于全局数据，不适用于存储会话用户信息（应使用 HttpSession）。
+
+# 数据库
 如需持久化数据，建议使用数据库（MySQL、PostgreSQL）或 ORM 框架（如 Hibernate）。
