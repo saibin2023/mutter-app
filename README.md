@@ -99,28 +99,25 @@ mysql -u your_username -p
 ```
 
 ## 运行项目管理和服务器
-使用Maven构建项目，在项目目录下运行命令行：
 ```
-mvn clean package
-```
-将生成的WAR文件部署到Tomcat或在有修改的情况下重新部署到 Tomcat
-
-停止服务
-```
-brew services stop tomcat
-```
-删除旧文件
-```
-sudo rm /usr/local/opt/tomcat/libexec/webapps/mutter-app.war
-sudo rm -rf /usr/local/opt/tomcat/libexec/webapps/mutter-app
-```
-复制新文件
-```
-sudo cp target/mutter-app.war /usr/local/opt/tomcat/libexec/webapps/
-```
-启动服务
-```
-brew services start tomcat
+    # In your project directory
+    mvn clean install
+    
+    # Stop Tomcat
+    brew services stop tomcat
+    
+    # Remove old deployment
+    sudo rm /usr/local/opt/tomcat/libexec/webapps/mutter-app.war
+    sudo rm -rf /usr/local/opt/tomcat/libexec/webapps/mutter-app
+    
+    # Deploy new WAR
+    sudo cp target/mutter-app.war /usr/local/opt/tomcat/libexec/webapps/
+    
+    # Clean Tomcat cache (optional but recommended)
+    rm -rf /usr/local/opt/tomcat/libexec/work/*
+    
+    # Start Tomcat
+    brew services start tomcat
 ```
 访问应用程序：
 
@@ -129,48 +126,11 @@ brew services start tomcat
 检查日志：查看 Tomcat 和应用程序日志，确保没有错误信息。
 
 默认用户凭据：
+
 用户名：admin
+
 密码：password
 
-# 服务启动不成功时
-
-排查步骤
-
-## 文件结构
-
-检查 mutter-app 目录内容
-```
-ls /usr/local/opt/tomcat/libexec/webapps/mutter-app
-```
-检查 WEB-INF 目录：
-确保 WEB-INF 目录存在，并且其中包含 web.xml 文件和其他必要的资源。
-使用以下命令查看 WEB-INF 目录中的内容：
-```
-ls /usr/local/opt/tomcat/libexec/webapps/mutter-app/WEB-INF
-```
-检查 WEB-INF/lib 目录：
-确保 WEB-INF/lib 目录中包含所有必要的 JAR 文件，特别是 MySQL 的 JDBC 驱动程序。
-使用以下命令查看 WEB-INF/lib 目录中的内容：
-```
-ls /usr/local/opt/tomcat/libexec/webapps/mutter-app/WEB-INF/lib
-```
-通过这些步骤，你可以确认应用程序的必要文件是否存在。
-
-既然文件结构看起来没有问题，我们可以继续排查其他可能的原因：
-
-检查 Tomcat 日志：
-
-查看 catalina.out 和 localhost.log 文件，查找任何错误信息或异常情况。这些日志文件通常会记录应用程序启动和运行时的错误。
-
-确认数据库连接：
-
-确保数据库服务正在运行，并且应用程序能够连接到数据库。你可以使用数据库客户端工具来测试连接。
-
-检查应用程序配置：
-
-确保 application.properties 文件中的配置正确，特别是数据库连接和其他关键配置。
-
 确认上下文路径：
-
-确保访问的 URL 是正确的。根据你的部署，访问路径应该是 http://localhost:8080/mutter-app。
+访问路径应该是 http://localhost:8080/mutter-app。
 
