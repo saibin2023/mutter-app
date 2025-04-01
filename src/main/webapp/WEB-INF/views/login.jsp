@@ -3,59 +3,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ログイン</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .container {
-            max-width: 400px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .error {
-            color: red;
-            margin-bottom: 10px;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン - Mutter</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
-    <div class="container">
+    <%@ include file="/WEB-INF/fragments/header.jspf" %>
+
+    <%-- Use login-container for specific width --%>
+    <div class="container login-container">
         <h2>ログイン</h2>
         <c:if test="${not empty error}">
-            <div class="error">${error}</div>
+            <%-- Use new error style --%>
+            <div class="error-message">${error}</div> 
         </c:if>
         <form action="${pageContext.request.contextPath}/login" method="post">
             <div class="form-group">
@@ -66,7 +27,8 @@
                 <label for="password">パスワード：</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <button type="submit">ログイン</button>
+             <%-- Use new button style --%>
+            <button type="submit" class="btn btn-primary">ログイン</button>
         </form>
     </div>
 </body>

@@ -4,60 +4,14 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${post.title} - Mutter</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .post {
-            margin-bottom: 20px;
-        }
-        .post-title {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 10px;
-        }
-        .post-meta {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-        .post-content {
-            color: #444;
-        }
-        /* Style for full post image */
-        .post-image {
-            max-width: 100%; /* Allow image to scale */
-            height: auto;
-            margin-top: 15px;
-            margin-bottom: 15px;
-            display: block;
-        }
-        .back-link {
-            display: inline-block;
-            margin-top: 20px;
-            color: #0066cc;
-            text-decoration: none;
-        }
-        .back-link:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
-    <div class="container">
+    <%@ include file="/WEB-INF/fragments/header.jspf" %>
+
+    <div class="container post-view"> <%-- Add post-view class for specific styling --%>
         <div class="post">
             <h1 class="post-title">${post.title}</h1>
             <div class="post-meta">
@@ -65,14 +19,34 @@
             </div>
             <%-- Display image if available --%>
             <c:if test="${not empty post.imagePath}">
-                <img src="${pageContext.request.contextPath}/${post.imagePath}" alt="Post image" class="post-image">
+                <img src="${pageContext.request.contextPath}/${post.imagePath}" alt="投稿画像" class="post-image">
             </c:if>
             <div class="post-content">
                 <%-- Use JSTL out tag to prevent potential XSS from post content --%>
                 <c:out value="${post.content}" escapeXml="false"/>
             </div>
         </div>
-        <a href="${pageContext.request.contextPath}/post" class="back-link">投稿一覧に戻る</a>
+        
+        <%-- Use post-actions class for layout --%>
+        <div class="post-actions">
+            <a href="${pageContext.request.contextPath}/post" class="back-link">← 投稿一覧に戻る</a>
+            
+            <%-- Delete Button/Form - Only show if logged in user is the author --%>
+            <c:if test="${sessionScope.user != null && sessionScope.user.username == post.author}">
+                <form action="${pageContext.request.contextPath}/post" method="post" style="display: inline;" onsubmit="return confirmDelete();">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="postId" value="${post.id}">
+                    <%-- Use new button style --%>
+                    <button type="submit" class="btn btn-danger">削除</button>
+                </form>
+            </c:if>
+        </div>
     </div>
+    
+    <script>
+        function confirmDelete() {
+            return confirm("この投稿を本当に削除しますか？ この操作は元に戻せません。");
+        }
+    </script>
 </body>
 </html> 

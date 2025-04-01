@@ -4,86 +4,18 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>新規投稿 - Mutter</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #333;
-        }
-        input[type="text"], textarea {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        textarea {
-            height: 200px;
-            resize: vertical;
-        }
-        .error {
-            color: #f44336;
-            margin-bottom: 15px;
-        }
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-        }
-        .btn-primary {
-            background-color: #4CAF50;
-            color: white;
-        }
-        .btn-primary:hover {
-            background-color: #45a049;
-        }
-        .btn-secondary {
-            background-color: #f44336;
-            color: white;
-            margin-left: 10px;
-        }
-        .btn-secondary:hover {
-            background-color: #da190b;
-        }
-    </style>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>新規投稿</h1>
-            <a href="${pageContext.request.contextPath}/post" class="btn btn-secondary">一覧に戻る</a>
-        </div>
+    <%@ include file="/WEB-INF/fragments/header.jspf" %>
 
+    <div class="container">
+        <h1>新規投稿</h1>
+        
         <c:if test="${not empty error}">
-            <div class="error">${error}</div>
+            <div class="error-message">${error}</div>
         </c:if>
 
         <form action="${pageContext.request.contextPath}/post" method="post" enctype="multipart/form-data">
@@ -99,7 +31,8 @@
                 <label for="image">画像 (任意)：</label>
                 <input type="file" id="image" name="image" accept="image/*">
             </div>
-            <button type="submit" class="btn btn-primary">投稿</button>
+            <button type="submit" class="btn btn-success">投稿</button>
+            <a href="${pageContext.request.contextPath}/post" class="btn btn-secondary" style="margin-left: 10px;">キャンセル</a>
         </form>
     </div>
 </body>

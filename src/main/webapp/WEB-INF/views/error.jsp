@@ -1,57 +1,37 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isErrorPage="true" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>エラー</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        h1 {
-            color: #d32f2f;
-        }
-        .error-message {
-            color: #666;
-            margin: 20px 0;
-        }
-        a {
-            color: #4CAF50;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>エラー - Mutter</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>エラーが発生しました</h1>
-        <div class="error-message">
+    <%@ include file="/WEB-INF/fragments/header.jspf" %>
+
+    <div class="container error-page-container">
+        <h1><c:out value="${requestScope['jakarta.servlet.error.status_code']}" /> エラー</h1>
+        
+        <div class="error-message" style="margin-top: 20px; margin-bottom: 30px;">
             <c:choose>
-                <c:when test="${pageContext.errorData.statusCode == 404}">
-                    ページが見つかりませんでした。
+                <c:when test="${requestScope['jakarta.servlet.error.status_code'] == 404}">
+                    お探しのページは見つかりませんでした。
                 </c:when>
-                <c:when test="${pageContext.errorData.statusCode == 500}">
-                    サーバーエラーが発生しました。
+                <c:when test="${requestScope['jakarta.servlet.error.status_code'] == 403}">
+                     この操作を行う権限がありません。
+                </c:when>
+                <c:when test="${requestScope['jakarta.servlet.error.status_code'] == 500}">
+                     サーバー内部でエラーが発生しました。
                 </c:when>
                 <c:otherwise>
-                    予期せぬエラーが発生しました。
+                    予期せぬエラーが発生しました: <c:out value="${requestScope['jakarta.servlet.error.message']}" />
                 </c:otherwise>
             </c:choose>
         </div>
-        <a href="${pageContext.request.contextPath}/login">トップページに戻る</a>
+        
+        <a href="${pageContext.request.contextPath}/post" class="btn btn-primary">投稿一覧に戻る</a>
     </div>
 </body>
 </html> 

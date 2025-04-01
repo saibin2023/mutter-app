@@ -84,4 +84,17 @@ public class PostDAO {
         }
         return null;
     }
+    
+    // Method to delete a post by ID
+    public boolean deletePost(int id) throws SQLException {
+        String sql = "DELETE FROM posts WHERE id = ?";
+        
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setInt(1, id);
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0; // Return true if a row was deleted
+        }
+    }
 } 
