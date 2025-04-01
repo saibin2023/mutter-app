@@ -31,7 +31,7 @@
                 <label for="image">画像 (任意)：</label>
                 <input type="file" id="image" name="image" accept="image/*">
             </div>
-            <button type="submit" class="btn btn-success">投稿</button>
+            <button type="submit" class="btn btn-primary">投稿</button>
             <a href="${pageContext.request.contextPath}/post" class="btn btn-secondary" style="margin-left: 10px;">キャンセル</a>
         </form>
     </div>

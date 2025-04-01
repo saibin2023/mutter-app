@@ -12,8 +12,9 @@
     <%@ include file="/WEB-INF/fragments/header.jspf" %>
 
     <div class="container">
-        <div class="action-header">
+        <div class="action-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
             <h1>投稿一覧</h1>
+            <a href="${pageContext.request.contextPath}/post/new" class="btn btn-primary">新規投稿</a>
         </div>
         
         <ul class="post-list">

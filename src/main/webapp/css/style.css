@@ -152,6 +152,18 @@ a:hover {
     border-color: var(--secondary-color-hover);
 }
 
+/* Custom Google Button Style */
+.btn-google {
+    color: var(--dark-text); /* Dark text */
+    background-color: var(--white-color); /* White background */
+    border-color: var(--border-color); /* Gray border */
+}
+
+.btn-google:hover {
+    background-color: #e2e6ea; /* Slightly darker background on hover */
+    border-color: #dae0e5;
+}
+
 /* --- Forms --- */
 .form-group {
     margin-bottom: 1.2rem;
