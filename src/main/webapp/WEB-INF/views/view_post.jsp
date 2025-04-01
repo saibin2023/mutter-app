@@ -53,13 +53,13 @@
         <div class="post">
             <h1 class="post-title">${post.title}</h1>
             <div class="post-meta">
-                作者：${post.author} | 发布时间：${post.createTime}
+                投稿者：${post.author} | 投稿日時：${post.createTime}
             </div>
             <div class="post-content">
                 ${post.content}
             </div>
         </div>
-        <a href="${pageContext.request.contextPath}/post" class="back-link">返回帖子列表</a>
+        <a href="${pageContext.request.contextPath}/post" class="back-link">投稿一覧に戻る</a>
     </div>
 </body>
 </html> 

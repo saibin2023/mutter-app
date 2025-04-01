@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>帖子列表 - Mutter</title>
+    <title>投稿一覧 - Mutter</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -76,10 +76,10 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>帖子列表</h1>
+            <h1>投稿一覧</h1>
             <div>
-                <a href="${pageContext.request.contextPath}/post/new" class="new-post-btn">发布新帖子</a>
-                <a href="${pageContext.request.contextPath}/logout" class="logout-btn">退出登录</a>
+                <a href="${pageContext.request.contextPath}/post/new" class="new-post-btn">新規投稿</a>
+                <a href="${pageContext.request.contextPath}/logout" class="logout-btn">ログアウト</a>
             </div>
         </div>
         
@@ -88,12 +88,11 @@
                 <li class="post-item">
                     <a href="${pageContext.request.contextPath}/post/view/${post.id}" class="post-title">${post.title}</a>
                     <div class="post-meta">
-                        作者：${post.author} | 发布时间：${post.createTime}
+                        投稿者：${post.author} | 投稿日時：${post.createTime}
                     </div>
                 </li>
             </c:forEach>
         </ul>
     </div>
 </body>
-</html> 
 </html> 

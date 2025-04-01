@@ -1,17 +1,18 @@
 package com.mutter.servlet;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+
 import com.mutter.dao.PostDAO;
 import com.mutter.model.Post;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.List;
 
 @WebServlet("/post/*")
 public class PostServlet extends HttpServlet {
@@ -58,17 +59,18 @@ public class PostServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("username") == null) {
+        if (session == null || session.getAttribute("user") == null) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
 
         String title = request.getParameter("title");
         String content = request.getParameter("content");
-        String author = (String) session.getAttribute("username");
+        com.mutter.model.User user = (com.mutter.model.User) session.getAttribute("user");
+        String author = user.getUsername();
 
         if (title == null || title.trim().isEmpty() || content == null || content.trim().isEmpty()) {
-            request.setAttribute("error", "标题和内容不能为空");
+            request.setAttribute("error", "タイトルと内容は必須です。");
             request.getRequestDispatcher("/WEB-INF/views/new_post.jsp").forward(request, response);
             return;
         }

@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>发布新帖子 - Mutter</title>
+    <title>新規投稿 - Mutter</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -78,8 +78,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>发布新帖子</h1>
-            <a href="${pageContext.request.contextPath}/post" class="btn btn-secondary">返回列表</a>
+            <h1>新規投稿</h1>
+            <a href="${pageContext.request.contextPath}/post" class="btn btn-secondary">一覧に戻る</a>
         </div>
 
         <c:if test="${not empty error}">
@@ -88,14 +88,14 @@
 
         <form action="${pageContext.request.contextPath}/post" method="post">
             <div class="form-group">
-                <label for="title">标题：</label>
+                <label for="title">タイトル：</label>
                 <input type="text" id="title" name="title" required>
             </div>
             <div class="form-group">
                 <label for="content">内容：</label>
                 <textarea id="content" name="content" required></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">发布</button>
+            <button type="submit" class="btn btn-primary">投稿</button>
         </form>
     </div>
 </body>
