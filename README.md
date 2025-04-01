@@ -1,7 +1,6 @@
 
-![Mutter App](https://raw.githubusercontent.com/saibin2023/mutter-app/main/img/mutter-app.png)
 
-<img src="https://raw.githubusercontent.com/saibin2023/mutter-app/main/img/mutter-app.png" alt="Mutter App" width="500">
+<img src="https://github.com/saibin2023/mutter-app/blob/main/img/mutter-app.png" alt="Mutter App" width="900">
 
 
 
