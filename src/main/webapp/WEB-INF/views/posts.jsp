@@ -61,6 +61,13 @@
             color: #666;
             font-size: 14px;
         }
+        /* Style for post image preview */
+        .post-image-preview {
+            max-width: 200px; /* Limit image size in list view */
+            max-height: 150px;
+            margin-top: 10px;
+            display: block;
+        }
         .logout-btn {
             background-color: #f44336;
             color: white;
@@ -87,6 +94,10 @@
             <c:forEach items="${posts}" var="post">
                 <li class="post-item">
                     <a href="${pageContext.request.contextPath}/post/view/${post.id}" class="post-title">${post.title}</a>
+                    <%-- Display image if available --%>
+                    <c:if test="${not empty post.imagePath}">
+                        <img src="${pageContext.request.contextPath}/${post.imagePath}" alt="Post image" class="post-image-preview">
+                    </c:if>
                     <div class="post-meta">
                         投稿者：${post.author} | 投稿日時：${post.createTime}
                     </div>

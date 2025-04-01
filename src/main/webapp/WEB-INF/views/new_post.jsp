@@ -86,7 +86,7 @@
             <div class="error">${error}</div>
         </c:if>
 
-        <form action="${pageContext.request.contextPath}/post" method="post">
+        <form action="${pageContext.request.contextPath}/post" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="title">タイトル：</label>
                 <input type="text" id="title" name="title" required>
@@ -94,6 +94,10 @@
             <div class="form-group">
                 <label for="content">内容：</label>
                 <textarea id="content" name="content" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="image">画像 (任意)：</label>
+                <input type="file" id="image" name="image" accept="image/*">
             </div>
             <button type="submit" class="btn btn-primary">投稿</button>
         </form>

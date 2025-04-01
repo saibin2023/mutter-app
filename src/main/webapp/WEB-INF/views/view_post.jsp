@@ -37,6 +37,14 @@
         .post-content {
             color: #444;
         }
+        /* Style for full post image */
+        .post-image {
+            max-width: 100%; /* Allow image to scale */
+            height: auto;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            display: block;
+        }
         .back-link {
             display: inline-block;
             margin-top: 20px;
@@ -55,8 +63,13 @@
             <div class="post-meta">
                 投稿者：${post.author} | 投稿日時：${post.createTime}
             </div>
+            <%-- Display image if available --%>
+            <c:if test="${not empty post.imagePath}">
+                <img src="${pageContext.request.contextPath}/${post.imagePath}" alt="Post image" class="post-image">
+            </c:if>
             <div class="post-content">
-                ${post.content}
+                <%-- Use JSTL out tag to prevent potential XSS from post content --%>
+                <c:out value="${post.content}" escapeXml="false"/>
             </div>
         </div>
         <a href="${pageContext.request.contextPath}/post" class="back-link">投稿一覧に戻る</a>

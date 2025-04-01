@@ -1,18 +1,22 @@
 package com.mutter.dao;
 
-import com.mutter.model.Post;
-import com.mutter.util.DatabaseUtil;
-
-import java.sql.*;
-import java.time.LocalDateTime;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.mutter.model.Post;
+import com.mutter.util.DatabaseUtil;
 
 public class PostDAO {
     
     public List<Post> getAllPosts() throws SQLException {
         List<Post> posts = new ArrayList<>();
-        String sql = "SELECT * FROM posts ORDER BY created_at DESC";
+        String sql = "SELECT id, title, content, author, image_path, created_at FROM posts ORDER BY created_at DESC";
         
         try (Connection conn = DatabaseUtil.getConnection();
              Statement stmt = conn.createStatement();
@@ -24,6 +28,7 @@ public class PostDAO {
                     rs.getString("title"),
                     rs.getString("content"),
                     rs.getString("author"),
+                    rs.getString("image_path"),
                     rs.getTimestamp("created_at").toLocalDateTime()
                 );
                 posts.add(post);
@@ -33,7 +38,7 @@ public class PostDAO {
     }
     
     public Post createPost(Post post) throws SQLException {
-        String sql = "INSERT INTO posts (title, content, author, created_at) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO posts (title, content, author, image_path, created_at) VALUES (?, ?, ?, ?, ?)";
         
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -41,7 +46,8 @@ public class PostDAO {
             pstmt.setString(1, post.getTitle());
             pstmt.setString(2, post.getContent());
             pstmt.setString(3, post.getAuthor());
-            pstmt.setTimestamp(4, Timestamp.valueOf(post.getCreateTimeRaw()));
+            pstmt.setString(4, post.getImagePath());
+            pstmt.setTimestamp(5, Timestamp.valueOf(post.getCreateTimeRaw()));
             
             pstmt.executeUpdate();
             
@@ -56,7 +62,7 @@ public class PostDAO {
     }
     
     public Post getPost(int id) throws SQLException {
-        String sql = "SELECT * FROM posts WHERE id = ?";
+        String sql = "SELECT id, title, content, author, image_path, created_at FROM posts WHERE id = ?";
         
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -70,6 +76,7 @@ public class PostDAO {
                         rs.getString("title"),
                         rs.getString("content"),
                         rs.getString("author"),
+                        rs.getString("image_path"),
                         rs.getTimestamp("created_at").toLocalDateTime()
                     );
                 }
