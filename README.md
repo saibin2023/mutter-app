@@ -1,5 +1,7 @@
 # 「つぶやき」の紹介
+このプロジェクトは、Servlet, JSP, MySQLを使ったミニブログアプリです。
 
+ユーザーが登録・ログインし、テキストや画像付きの投稿ができる機能を実装しました。自分の投稿を削除することも可能です。
 ### フロント
 <img src="https://github.com/saibin2023/mutter-app/blob/main/img/final.png" alt="Mutter App" width="900">
 
