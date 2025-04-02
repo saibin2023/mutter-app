@@ -1,143 +1,99 @@
-# フロント
-　　　　　　　　　　　　　　　　　　　　　　　　　データベース無
-                         
-<img src="https://github.com/saibin2023/mutter-app/blob/main/img/mutter-app.png" alt="Mutter App" width="900">
+# 「つぶやき」の紹介
 
-　　　　　　　　　　　　　　　　　　　　　　データベースmySQLで投稿を管理
-<img src="https://github.com/saibin2023/mutter-app/blob/main/img/buildwithmysql.png" alt="Mutter App" width="900">
+### フロント
 <img src="https://github.com/saibin2023/mutter-app/blob/main/img/final.png" alt="Mutter App" width="900">
 
-#仕組み
+### アプリの仕組み
 <img src="https://github.com/saibin2023/mutter-app/blob/main/img/web%20app%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF.png" alt="Mutter App" width="900">
 
-
-# mutter-app
 ```
-我来帮您创建一个基于Java Servlet和JSP的Web应用项目。我们将使用ServletContext来存储数据，实现登录、发帖和浏览功能。
+1. 项目概述（システム概要）
+   
+「つぶやき」は、Servlet、JSP、MySQL を使って開発した 簡単なミニブログアプリ です。
+ユーザーはアカウントを作成し、ログインして 投稿（画像＋テキスト） できます。投稿の削除も可能です。
 
-首先，让我们创建项目的基本结构。
+2. 主な機能（主な機能）
 
-很好，让我们开始创建项目结构。首先，我们需要创建一个基本的Maven项目结构，并设置必要的依赖。
+ユーザー管理：
 
-我将创建以下文件：
-pom.xml - Maven项目配置文件
+登録（新規ユーザー作成）
 
-基本的项目结构
+ログイン・ログアウト（セッション管理）
 
-必要的Java类和JSP页面
-首先创建pom.xml：
-现在让我们创建基本的项目结构和必要的文件。
+投稿機能：
 
-首先创建用户模型类：
-接下来创建帖子模型类：
-现在创建登录Servlet：
-创建帖子相关的Servlet：
-现在创建登录页面：
-创建帖子列表页面：
-最后，让我们创建一个web.xml配置文件
+投稿作成（テキスト＋画像のアップロード）
 
-让我们创建一个简单的错误页面：
+投稿削除（ユーザー自身の投稿のみ削除可能）
 
-创建了一个基本的Java Web应用程序，包含以下功能：
+3. 技術構成（技術スタック）
 
-登录功能：
+バックエンド：Servlet（Tomcat）
 
-使用ServletContext存储用户信息
-默认用户：admin/password
-登录验证和错误提示
+フロントエンド：JSP（HTML, CSS, JavaScript）
 
-发帖和浏览功能：
+データベース：MySQL（ユーザー情報、投稿データを保存）
 
-使用ServletContext存储帖子信息
-支持发布新帖子（标题和内容）
-显示所有帖子列表
-显示发帖时间和作者信息
+画像保存：サーバーのファイルシステムにアップロード
 
-错误处理：
-404和500错误页面
-表单验证和错误提示
-会话超时处理
+4. 開発のポイント（工夫した点）
 
-项目结构如下：
-src/
-├── main/
-│   ├── java/
-│   │   └── com/
-│   │       └── mutter/
-│   │           ├── model/
-│   │           │   ├── User.java
-│   │           │   └── Post.java
-│   │           └── servlet/
-│   │               ├── LoginServlet.java
-│   │               └── PostServlet.java
-│   └── webapp/
-│       └── WEB-INF/
-│           ├── views/
-│           │   ├── login.jsp
-│           │   ├── posts.jsp
-│           │   └── error.jsp
-│           └── web.xml
-└── pom.xml
+セッション管理でログイン状態を維持し、適切なアクセス制御を実装
+
+投稿の所有者のみが削除可能なロジックを実装し、不正削除を防止
+
+データのセキュリティ：
+
+投稿データに ハッシュコードを適用 し、直接データを閲覧できないようにする
+
+パスワードは ハッシュ化を使って保存
+
+ユーザー目線での改善：
+
+Google アカウントでの登録・ログイン（OAuth 2.0 認証）を導入し、利便性を向上
 
 ```
-# 要运行这个项目：
+## プロジェクトを実行する方法
 
-查看正在运行的所有服务
+現在実行中のサービスを確認
 ```
- brew services list
+brew services list
 ```
-## 安装项目管理和服务器
+データベースにアクセス
+```
+brew services start mysql@8.0
+```
 
-安装Java 11或更高版本
-
-安装Maven
-
-安装Tomcat服务器
-
-安装和运行数据库mySQL（在创建项目时需要配置好普通用户账户和权限，运行项目时需要启动数据库）
-
-brew install mysql
-
-brew services start mysql
-
-访问数据库
 ```
 mysql -u your_username -p
 ```
+プロジェクトのビルドとサーバーの起動
 
-## 运行项目管理和服务器
+プロジェクトディレクトリで以下のコマンドを実行してください。
+
 ```
-    # In your project directory
-    mvn clean install
-    
-    # Stop Tomcat
-    brew services stop tomcat
-    
-    # Remove old deployment
-    sudo rm /usr/local/opt/tomcat/libexec/webapps/mutter-app.war
-    sudo rm -rf /usr/local/opt/tomcat/libexec/webapps/mutter-app
-    
-    # Deploy new WAR
-    sudo cp target/mutter-app.war /usr/local/opt/tomcat/libexec/webapps/
-    
-    # Clean Tomcat cache (optional but recommended)
-    rm -rf /usr/local/opt/tomcat/libexec/work/*
-    
-    # Start Tomcat
-    brew services start tomcat
+mvn clean install
 ```
-访问应用程序：
 
-在浏览器中访问 http://localhost:8080/mutter-app，确保应用程序正常运行。
+```
+# Tomcatを停止
+brew services stop tomcat
 
-检查日志：查看 Tomcat 和应用程序日志，确保没有错误信息。
+# 旧バージョンのデプロイを削除
+sudo rm /usr/local/opt/tomcat/libexec/webapps/mutter-app.war
+sudo rm -rf /usr/local/opt/tomcat/libexec/webapps/mutter-app
 
-默认用户凭据：
+# 新しいWARファイルをデプロイ
+sudo cp target/mutter-app.war /usr/local/opt/tomcat/libexec/webapps/
 
-用户名：admin
+# Tomcatのキャッシュをクリア（推奨）
+rm -rf /usr/local/opt/tomcat/libexec/work/*
 
-密码：password
+# Tomcatを起動
+brew services start tomcat
+```
+アプリケーションにアクセス
 
-确认上下文路径：
-访问路径应该是 http://localhost:8080/mutter-app。
+http://localhost:8080/mutter-app
+
 
